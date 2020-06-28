@@ -1,7 +1,7 @@
 # topFreeApp - created by Flutter
-一个flutter练手项目, data from app Store top 100.
+一个flutter练手项目, A new Flutter demo project.
 
-A new Flutter demo project.
+data from app Store top 100.
 
 ## Getting Started
 
