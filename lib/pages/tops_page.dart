@@ -1,7 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+
 import 'package:dio/dio.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:topFreeApp/pages/detail_page.dart';
 
@@ -80,28 +81,56 @@ class _TopsPageState extends State<TopsPage>
       appBar: AppBar(
         title: Text('Tops'),
       ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          // 如果不是Sliver家族的Widget，需要使用SliverToBoxAdapter做层包裹
-          SliverToBoxAdapter(
-            child: Container(
-              height: 150,
-              color: Colors.green,
-              child: Text('HeaderView'),
+      body: _dataList.length == 0
+          ? Center(
+              child: Text(
+              '加载中...',
+              style: TextStyle(fontSize: 16),
+            ))
+          : CustomScrollView(
+              slivers: <Widget>[
+                // 如果不是Sliver家族的Widget，需要使用SliverToBoxAdapter做层包裹
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 150,
+                    color: Colors.lightGreen,
+                    child: Swiper(
+                      itemCount: 5, // 滚动图片的数量
+                      autoplay: true, // 自动播放
+                      pagination: SwiperPagination(
+                        alignment: Alignment.bottomRight, // 对齐方式
+                        margin: EdgeInsets.fromLTRB(0, 0, 14, 10), // 边距
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        // 构造器
+                        return GestureDetector(
+                          onTap: () {
+                            // CommonModel model = bannerList[index];
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => WebView(
+                            //       url: model.url,
+                            //     ),
+                            //   ),
+                            // );
+                          },
+                          child: Image.network(
+                            'https://oimagec7.ydstatic.com/image?id=-262495738318531932&product=adpublish&w=520&h=347',
+                            fit: BoxFit.fitWidth,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                // 当列表项高度固定时，使用 SliverFixedExtendList 比 SliverList 具有更高的性能
+                SliverFixedExtentList(
+                    delegate: SliverChildBuilderDelegate(_buildListItem,
+                        childCount: _dataList.length),
+                    itemExtent: 75.0)
+              ],
             ),
-          ),
-          // 当列表项高度固定时，使用 SliverFixedExtendList 比 SliverList 具有更高的性能
-          _dataList.length == 0
-              ? Text(
-                  '加载中...',
-                  style: TextStyle(fontSize: 16),
-                )
-              : SliverFixedExtentList(
-                  delegate: SliverChildBuilderDelegate(_buildListItem,
-                      childCount: _dataList.length),
-                  itemExtent: 75.0)
-        ],
-      ),
     );
   }
 
