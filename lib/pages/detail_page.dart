@@ -68,7 +68,8 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     RaisedButton(
                         onPressed: () {
-                          Navigator.pop(context, 'product.description');
+                          Navigator.pop(context,
+                              '刚刚浏览了：${this.appInfo['im:name']['label']}');
                         },
                         child: Text('返回'),
                         color: Colors.purple)
