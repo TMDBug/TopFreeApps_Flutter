@@ -13,30 +13,56 @@ class BottomNavigationBarWidget extends StatefulWidget {
 
 class _BottomNavigationBarState extends State<BottomNavigationBarWidget> {
   int _currentIndex = 0;
-  List<Widget> _pagesDataList = [Homepage(), TopsPage(), SearchPage()];
+  final List<Widget> _pagesDataList = [Homepage(), TopsPage(), SearchPage()];
+
+  final pageController = PageController();
 
   @override
   void initState() {
     super.initState();
   }
 
+  void onTap(int index) {
+    pageController.jumpToPage(index);
+  }
+
+  void onPageChanged(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _pagesDataList[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          items: _getNavigationBars(),
-          currentIndex: _currentIndex,
-          type: BottomNavigationBarType.fixed,
-          onTap: (int index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.grey,
-          backgroundColor: Color.fromRGBO(0, 110, 87, 1),
-        ));
+      body: PageView(
+        controller: pageController,
+        children: _pagesDataList,
+        onPageChanged: onPageChanged,
+        physics: NeverScrollableScrollPhysics(), // 禁止滑动
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: _getNavigationBars(),
+        currentIndex: _currentIndex,
+        onTap: onTap,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
+        backgroundColor: Color.fromRGBO(0, 110, 87, 1),
+      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: _getNavigationBars(),
+      //   currentIndex: _currentIndex,
+      //   type: BottomNavigationBarType.fixed,
+      //   onTap: (int index) {
+      //     setState(() {
+      //       _currentIndex = index;
+      //     });
+      //   },
+      //   selectedItemColor: Colors.white,
+      //   unselectedItemColor: Colors.grey,
+      //   backgroundColor: Color.fromRGBO(0, 110, 87, 1),
+      // )
+    );
   }
 }
 

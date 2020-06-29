@@ -7,9 +7,17 @@ class TopsPage extends StatefulWidget {
   }
 }
 
-class _TopsPageState extends State {
+class _TopsPageState extends State<TopsPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+    print('----- tops page init----');
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Tops'),
@@ -19,4 +27,7 @@ class _TopsPageState extends State {
       ),
     );
   }
+
+  @override
+  get wantKeepAlive => true;
 }

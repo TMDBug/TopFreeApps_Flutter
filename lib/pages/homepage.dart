@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
+import 'package:topFreeApp/pages/detail_page.dart';
+
 class Homepage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -10,13 +12,20 @@ class Homepage extends StatefulWidget {
   }
 }
 
-class _HomepageState extends State {
+class _HomepageState extends State<Homepage>
+    with AutomaticKeepAliveClientMixin {
   List _dataList = List();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-    this._getDatas();
+    print('-------------home init State-----------');
+    if (_dataList.length == 0) {
+      this._getDatas();
+    }
   }
 
   _getDatas() async {
@@ -35,6 +44,8 @@ class _HomepageState extends State {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Homepage'),
@@ -79,8 +90,7 @@ class _HomepageState extends State {
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                ProductDetailPage(appIterm: _dataList[index])));
+            builder: (context) => DetailPage(appIterm: _dataList[index])));
     if (null != result) {
       //第一页面提示返回过来的值
       Scaffold.of(context).showSnackBar(SnackBar(content: Text('$result')));

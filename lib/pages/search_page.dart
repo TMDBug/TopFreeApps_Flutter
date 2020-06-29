@@ -7,9 +7,14 @@ class SearchPage extends StatefulWidget {
   }
 }
 
-class _SearchPageState extends State {
+class _SearchPageState extends State<SearchPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Search'),
