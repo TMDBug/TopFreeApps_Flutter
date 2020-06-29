@@ -48,7 +48,10 @@ class _HomepageState extends State<Homepage>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Homepage'),
+        title: Text(
+          'Homepage',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+        ),
       ),
       body: this._dataList.length == 0
           ? Center(

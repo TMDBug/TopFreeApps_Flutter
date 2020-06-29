@@ -79,7 +79,8 @@ class _TopsPageState extends State<TopsPage>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tops'),
+        title: Text('Tops',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
       ),
       body: _dataList.length == 0
           ? Center(

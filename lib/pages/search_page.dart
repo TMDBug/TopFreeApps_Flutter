@@ -17,7 +17,8 @@ class _SearchPageState extends State<SearchPage>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search'),
+        title: Text('Search',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
       ),
       body: Center(
         child: Text('SearchPage'),
