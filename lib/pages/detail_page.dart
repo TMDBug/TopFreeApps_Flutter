@@ -27,8 +27,8 @@ class _DetailPageState extends State<DetailPage> {
           slivers: <Widget>[
             SliverPadding(
               padding: const EdgeInsets.all(20.0),
-              sliver: new SliverList(
-                delegate: new SliverChildListDelegate(
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
                   <Widget>[
                     Center(
                         child: Image.network(appInfo['im:image'][2]['label'])),

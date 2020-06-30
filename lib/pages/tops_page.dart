@@ -26,7 +26,7 @@ class _TopsPageState extends State<TopsPage>
   }
 
   _getDatas() async {
-    Dio dio = new Dio();
+    Dio dio = Dio();
     Response res = await dio.get(
         'https://itunes.apple.com/us/rss/topfreeapplications/limit=100/json');
     if (res.statusCode == 200) {
