@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:topFreeApp/pages/detail_page.dart';
+import 'package:topFreeApp/pages/webview_page.dart';
 
 class TopsPage extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _TopsPageState extends State<TopsPage>
   }
 
   _getDatas() async {
-    Dio dio = Dio();
+    Dio dio = new Dio();
     Response res = await dio.get(
         'https://itunes.apple.com/us/rss/topfreeapplications/limit=100/json');
     if (res.statusCode == 200) {
@@ -39,7 +40,7 @@ class _TopsPageState extends State<TopsPage>
     }
   }
 
-  // 列表项
+  // 列表
   Widget _buildListItem(BuildContext context, int index) {
     return Container(
       child: ListTile(
@@ -106,6 +107,12 @@ class _TopsPageState extends State<TopsPage>
                         // 构造器
                         return GestureDetector(
                           onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WebView(),
+                              ),
+                            );
                             // CommonModel model = bannerList[index];
                             // Navigator.push(
                             //   context,
