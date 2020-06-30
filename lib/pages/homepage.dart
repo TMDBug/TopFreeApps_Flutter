@@ -86,7 +86,7 @@ class _HomepageState extends State<Homepage>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tops',
+        title: Text('Homepage',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
       ),
       body: _dataList.length == 0
