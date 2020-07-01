@@ -1,98 +1,135 @@
 import 'package:flutter/material.dart';
 
-class SearchBarView extends StatefulWidget {
-  @override
-  _SearchBarViewState createState() => _SearchBarViewState();
-}
+class SearchBar extends StatelessWidget implements PreferredSizeWidget {
+  SearchBar({
+    Key key,
+    this.leading,
+    this.title,
+    this.onCancel,
+    this.onSearch,
+  }) : super(key: key);
+  final Widget leading;
 
-class _SearchBarViewState extends State<SearchBarView> {
+  // 标题
+  final String title;
+
+  // 点击取消回调
+  final VoidCallback onCancel;
+
+  // 点击键盘搜索回调
+  final ValueChanged<String> onSearch;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('搜索'),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: SearchBarViewDelegate());
-              })
-        ],
-      ),
+    return _AppBar(
+      key: key,
+      leading: leading,
+      title: title,
+      onSearch: onSearch,
+      onCancel: onCancel,
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
 
-class SearchBarViewDelegate extends SearchDelegate<String> {
+class _AppBar extends StatefulWidget {
+  _AppBar({
+    Key key,
+    this.leading,
+    this.title,
+    this.onCancel,
+    this.onSearch,
+  }) : super(key: key);
+
+  // 头部组件 可选
+  final Widget leading;
+
+  // 标题 可选
+  final String title;
+
+  // 点击取消回调 可选
+  final VoidCallback onCancel;
+
+  // 点击键盘搜索回调 可选
+  final ValueChanged<String> onSearch;
+
   @override
-  List<Widget> buildActions(BuildContext context) {
-    // TODO: implement buildActions
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () => query = "",
-      )
-    ];
+  _AppBarState createState() => _AppBarState();
+}
+
+class _AppBarState extends State<_AppBar> {
+  TextEditingController _controller = TextEditingController();
+  FocusNode _focusNode = FocusNode();
+  bool _showSearch = false; // 显示搜索框
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    _focusNode?.dispose();
+    super.dispose();
   }
 
-  @override
-  Widget buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
-    return IconButton(
-      icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
-      onPressed: () => close(context, null),
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    const sourceList = ["hello-你好", "hello-嗨!", "flutter-跨平台", "flutter-入门"];
-
-    //搜索结果
-    List<String> result = List();
-    //模拟搜索过程
-    for (var str in sourceList) {
-      if (query.isNotEmpty && str.contains(query)) {
-        result.add(str);
-      }
-    }
-
-    //展示搜索结果
-    return ListView.builder(
-      itemCount: result.length,
-      itemBuilder: (BuildContext context, int index) => ListTile(
-        title: Text(result[index]),
-      ),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    const sourceList = ["hello-你好", "hello-嗨!", "flutter-跨平台", "flutter-入门"];
-
-    const suggestList = ["看书", "github"];
-
-    List<String> suggest = query.isEmpty
-        ? suggestList
-        : sourceList.where((input) => input.startsWith(query)).toList();
-
-    return ListView.builder(
-      itemCount: suggest.length,
-      itemBuilder: (BuildContext context, int index) => ListTile(
-        title: RichText(
-          text: TextSpan(
-            text: suggest[index].substring(0, query.length),
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-            children: [
-              TextSpan(
-                text: suggest[index].substring(query.length),
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
+  // 搜索面板 默认返回标题
+  Widget _searchPanel() {
+    String _title = widget.title ?? "";
+    if (_title.isNotEmpty && !_showSearch) return Text(_title);
+    ValueChanged<String> _onSearch = widget.onSearch ?? (val) {};
+    return Container(
+      height: kToolbarHeight - 18,
+      child: TextField(
+        focusNode: _focusNode,
+        controller: _controller,
+        autofocus: _title.isNotEmpty,
+        style: TextStyle(fontSize: 15),
+        textInputAction: TextInputAction.search,
+        onEditingComplete: () => _onSearch(_controller.text),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(6),
           ),
         ),
       ),
+    );
+  }
+
+  // 搜索/取消按钮
+  Widget _action() {
+    String _title = widget.title ?? "";
+    VoidCallback _onCancel = widget.onCancel ?? () {};
+    Widget _icon =
+        _title.isNotEmpty && !_showSearch ? Icon(Icons.search) : Text('取消');
+    return Container(
+      width: 30,
+      margin: EdgeInsets.only(right: 10),
+      child: IconButton(
+        padding: EdgeInsets.all(0),
+        icon: _icon,
+        onPressed: () {
+          setState(() {
+            if (_title.isNotEmpty) _showSearch = !_showSearch;
+          });
+          if (!_showSearch) {
+            _focusNode.unfocus();
+            _controller.clear();
+            _onCancel();
+          }
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading: widget.leading,
+      title: _searchPanel(),
+      actions: <Widget>[_action()],
     );
   }
 }
