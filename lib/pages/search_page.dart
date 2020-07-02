@@ -24,7 +24,14 @@ class _SearchPageState extends State<SearchPage>
           return '';
         },
       ),
-      body: Text('text'),
+      body: Center(
+        child: Text(
+          '- Empty -',
+          style: TextStyle(
+              color: Color.fromRGBO(188, 188, 188, 1),
+              fontWeight: FontWeight.w200),
+        ),
+      ),
     );
   }
 }
