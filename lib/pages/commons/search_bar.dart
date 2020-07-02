@@ -77,25 +77,28 @@ class _AppBarState extends State<_AppBar> {
     if (_title.isNotEmpty && !_showSearch) return Text(_title);
     ValueChanged<String> _onSearch = widget.onSearch ?? (val) {};
     return Container(
-      height: kToolbarHeight - 18,
-      child: TextField(
-        focusNode: _focusNode,
-        controller: _controller,
-        autofocus: _title.isNotEmpty,
-        style: TextStyle(fontSize: 15),
-        textInputAction: TextInputAction.search,
-        onEditingComplete: () => _onSearch(_controller.text),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(6),
+        height: kToolbarHeight - 25,
+        child: Padding(
+          padding: EdgeInsets.only(left: 0),
+          child: TextField(
+            focusNode: _focusNode,
+            controller: _controller,
+            autofocus: _title.isNotEmpty,
+            style: TextStyle(fontSize: 13),
+            textInputAction: TextInputAction.search,
+            onEditingComplete: () => _onSearch(_controller.text),
+            decoration: InputDecoration(
+              hintText: '请输入要搜索的关键字',
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   // 搜索/取消按钮
@@ -106,7 +109,7 @@ class _AppBarState extends State<_AppBar> {
         _title.isNotEmpty && !_showSearch ? Icon(Icons.search) : Text('取消');
     return Container(
       width: 30,
-      margin: EdgeInsets.only(right: 10),
+      margin: EdgeInsets.only(right: 15, left: 15),
       child: IconButton(
         padding: EdgeInsets.all(0),
         icon: _icon,

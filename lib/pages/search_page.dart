@@ -21,7 +21,7 @@ class _SearchPageState extends State<SearchPage>
       appBar: SearchBar(
         onSearch: (value) {
           print('$value');
-          return 'aaaas';
+          return '';
         },
       ),
       body: Text('text'),
