@@ -25,6 +25,7 @@ class _SearchPageState extends State<SearchPage>
           print('$value');
           _dataList.add('$value');
           setState(() {});
+          FocusScope.of(context).requestFocus(FocusNode());
           return '';
         },
       ),
