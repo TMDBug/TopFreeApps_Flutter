@@ -23,6 +23,8 @@ class _SearchPageState extends State<SearchPage>
       appBar: SearchBar(
         onSearch: (value) {
           print('$value');
+          _dataList.add('$value');
+          setState(() {});
           return '';
         },
       ),
@@ -35,11 +37,11 @@ class _SearchPageState extends State<SearchPage>
                     fontWeight: FontWeight.w200),
               )
             : ListView.builder(
-                itemCount: 20,
+                itemCount: _dataList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     leading: Icon(Icons.search),
-                    title: Text('APP序号： $index'),
+                    title: Text('APP序号： $index, ${_dataList[index]}'),
                     subtitle: Text('多思考组件的合并 形成新的组件'),
                   );
                 },
