@@ -43,14 +43,29 @@ class _SearchPageState extends State<SearchPage>
           FocusScope.of(context).requestFocus(FocusNode());
           return '';
         },
+        onCancel: () {
+          _dataList = [];
+          setState(() {});
+        },
       ),
       body: Center(
         child: _dataList.length == 0
-            ? Text(
-                '- Empty -',
-                style: TextStyle(
-                    color: Color.fromRGBO(188, 188, 188, 1),
-                    fontWeight: FontWeight.w200),
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    '· 欢迎搜索Apple音乐 ·',
+                    style: TextStyle(
+                        color: Color.fromRGBO(188, 188, 188, 1),
+                        fontWeight: FontWeight.w200),
+                  ),
+                  Text(
+                    '- Empty -',
+                    style: TextStyle(
+                        color: Color.fromRGBO(188, 188, 188, 1),
+                        fontWeight: FontWeight.w200),
+                  )
+                ],
               )
             : ListView.builder(
                 itemCount: _dataList.length,
