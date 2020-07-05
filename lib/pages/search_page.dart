@@ -23,7 +23,7 @@ class _SearchPageState extends State<SearchPage>
     Dio dio = new Dio();
     Response res = await dio.get('https://itunes.apple.com/search?term=$key');
     if (res.statusCode == 200) {
-      print(jsonDecode(res.data));
+      // print(jsonDecode(res.data));
       setState(() {
         _dataList = jsonDecode(res.data)['results'];
       });
@@ -38,7 +38,7 @@ class _SearchPageState extends State<SearchPage>
     return Scaffold(
       appBar: SearchBar(
         onSearch: (value) {
-          print('$value');
+          // print('$value');
           _searchRequest(value);
           FocusScope.of(context).requestFocus(FocusNode());
           return '';
